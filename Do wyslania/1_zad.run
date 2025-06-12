@@ -1,0 +1,51 @@
+reset;
+
+option solver cplex;
+option cplex_options "time=180";
+
+model ogolny.mod;
+data parametery.dat;
+
+
+set ZAKRES;
+
+param BETA;
+param EPSILON;
+
+param CELE_ZAKRES{o in CELE, r in ZAKRES};
+
+data 1_parametry.dat;
+
+# Nowe zmienne
+
+var lambda{o in CELE};
+
+var zadowolenie{o in CELE};
+
+var dolna_granica;
+
+# Ograniczenia
+subject to lambda_obliczenia_constraint{o in CELE}:
+	lambda[o] = 1 / (CELE_ZAKRES[o, 'utopia'] - CELE_ZAKRES[o, 'nadir']);
+	
+subject to dolna_granica_constraint{o in CELE}:
+	dolna_granica <= zadowolenie[o];
+
+subject to zadowolenie_osiagniete_constraint{o in CELE}:
+	zadowolenie[o] <= BETA * lambda[o] * (cele[o] - ZAMIERZENIA[o]);
+
+subject to zadowolenie_constraint{o in CELE}:
+	zadowolenie[o] <= lambda[o] * (cele[o] - ZAMIERZENIA[o]);
+
+
+maximize max_constraint:
+	dolna_granica + EPSILON * sum{o in CELE} zadowolenie[o];
+
+solve;
+
+display produkcja;
+display przychod;
+display koszt;
+display zanieczyszczenia;
+display skladniki_uzycie;
+display lambda;

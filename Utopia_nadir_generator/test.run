@@ -1,0 +1,18 @@
+reset;
+
+option solver cplex;
+option cplex_options "time=180";
+
+model ogolny.mod;
+data parametery.dat;
+
+maximize test:
+	przychod;
+
+solve;
+
+display przychod;
+display zanieczyszczenia;
+display koszt;
+display produkcja;
+display skladniki_uzycie;

@@ -1,0 +1,52 @@
+data;
+
+set PRODUKTY := P1 P2 P3;	# Produkty, ktore mozna produkowac
+set SKLADNIKI := S1 S2 S3;	# Skladniki, ktore sa potrzebne do produkcji
+set CELE := S1 S2 przychod zanieczyszczenia koszt;	# Cele optymalizacji
+set CELE_MAKSYMALIZACJA := przychod;	# Cele, ktore chcemy maksymalizowac
+set CELE_MINIMALIZACJA := S1 S2 zanieczyszczenia koszt;	# Cele, ktore chcemy minimalizowac
+
+# Parametry
+param PRODUKT_PRZYCHOD :=	# Przychod z produkcji poszczegolnych produktow
+	P1   10,
+	P2   22,
+	P3   12;
+
+param POZIOM_ZANIECZYSZCZEN_PRODUKT :=	# Poziom zanieczyszczenia generowany przez produkcje poszczegolnych produktow
+	P1	1,
+	P2  1,
+	P3  3;
+
+param KOSZT_PRODUKCJA :=	# Koszt produkcji poszczegolnych produktow
+	P1	1,
+	P2	3,
+	P3	3;
+
+param PRODUKT_SKLADNIK 	# Skladniki potrzebne do produkcji poszczegolnych produktow
+	:	S1	S2	S3	:=
+	P1  2   8   5
+	P2  8   1   1
+	P3  4   4   2	;
+
+param SKLADNIKI_UZYCIE_MAX :=	# Maksymalne zuzycie skladnikow
+	S1	110,
+	S2	55,
+	S3	50;
+
+param PRODUKCJA_MIN :=	# Minimalna produkcja poszczegolnych produktow
+	P1	3,
+	P2	0,
+	P3	5;
+
+param PRZYCHOD_MIN := 130;				# Minimalny przychod z produkcji
+param EMISJA_ZANIECZYSZCZEN_MAX := 35;	# Maksymalna emisja zanieczyszczen
+param KOSZT_MAX := 80;					# Maksymalny koszt produkcji
+
+param ZAMIERZENIA :=			# Zamierzenia produkcyjne, które wyznaczyła sobie firma, chcemy je spełnić 
+	S1					100,
+	S2					50,
+	przychod			150,
+	zanieczyszczenia	30,
+	koszt				70;
+
+end;

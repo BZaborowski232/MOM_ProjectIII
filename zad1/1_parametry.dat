@@ -1,0 +1,16 @@
+data;
+
+set ZAKRES := utopia nadir;	# zakresy dla celów, nowy zbbiór
+
+param BETA := 1e-3;		# współczynnik zadowolenia, domyślnie 1e-3
+param EPSILON := 2e-5;	# współczynnik EPSILON, domyślnie 2e-5
+
+param CELE_ZAKRES		#zbiór wypisanych celów i ich zakresów, dla nadiru i utopii
+	:					utopia		nadir	:=
+	S1					48.5315     110
+	S2					47.0526     55
+	przychod			271.774     130
+	zanieczyszczenia	21.0526     28.8571
+	koszt				26.7133	    49.7143    ;
+
+end;

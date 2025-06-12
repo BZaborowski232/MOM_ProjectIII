@@ -1,0 +1,41 @@
+reset;
+
+option solver cplex; #cplexik wlatuje jako solver
+option cplex_options "time=180";	 # Opcja czasu dla CPLEX, ustawiona na 180 sekund
+
+model ogolny.mod;
+data parametery.dat;
+
+
+
+var alpha >= 0;		# Współczynnik zadowolenia, który chcemy maksymalizować
+#s.t. alpha_constraint: alpha <= 1;	# Ograniczenie, że alpha nie może przekroczyć 1
+
+var tolerancja{o in CELE};	# Tolerancja dla każdego celu, określająca zakres akceptowalnych odchyleń od zamierzeń
+
+
+# Ograniczenia
+subject to tolerancja_constraint{o in CELE}:				
+	tolerancja[o] = limity_krytyczne[o] - ZAMIERZENIA[o];
+
+subject to gorny_zimmerman_constraint{o in CELE_MAKSYMALIZACJA}:
+	cele[o] >= ZAMIERZENIA[o] + tolerancja[o] * (1 - alpha);
+
+subject to dolny_zimmerman_constraint{o in CELE_MINIMALIZACJA}:
+	cele[o] <= ZAMIERZENIA[o] + tolerancja[o] * (1 - alpha);
+
+
+
+maximize max_constraint:
+	alpha;
+
+solve;
+
+# Wyświetlenie wyników
+display produkcja;
+display przychod;
+display koszt;
+display zanieczyszczenia;
+display skladniki_uzycie;
+display tolerancja;
+display alpha;
